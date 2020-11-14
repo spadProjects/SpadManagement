@@ -1,0 +1,211 @@
+﻿
+@using SpadManagement.Web.Models
+@using SpadManagement.Service.Services
+
+@model ContractViewModel
+
+@{
+    /**/
+
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section title{
+    <h2>ثبت قرارداد وبسایت</h2>
+}
+
+<div class="col-md-12">
+    <div class="row">
+        <fieldset id="bodyFields" style="min-width:100%;">
+
+            <div class="invoice" style="min-width:100%;margin-bottom:2%;">
+                <!-- title row -->
+                <div class="col-12" style="margin-bottom:2%">
+                    <h5 style="margin:1%;">
+                        <i class="fa fa-info"></i> مشخصات کارفرما
+                    </h5>
+                </div>
+                <hr />
+                <div class="row" style="padding:1%;">
+                    <!-- /.col -->
+                    <div class="col-md-12 invoice-col">
+                        <div class="row">
+                            <div class="col col-md-4">
+                                <label for="CustomerId">نام شخص حقیقی/ حقوقی</label>
+                                <select class="form-control" id="CustomerId" name="CustomerId" onchange="getCustomerInfo()">
+                                    <option value="0">--انتخاب کنید--</option>
+                                    @{
+                                        for (int i = 0; i < Model.Customers.Count; i++)
+                                        {
+                                            var item = Model.Customers[i];
+
+                                            <option value="@item.Id">@item.FullName</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col col-md-4">
+                                <label for="ManagerName">نام مدیریت</label>
+                                <input type="text" class="form-control" id="ManagerName" name="ManagerName" aria-describedby="" placeholder="">
+                            </div>
+                            <div class="col col-md-4">
+                                <label for="MobileNumber">شماره همراه</label>
+                                <input type="text" class="form-control" id="MobileNumber" name="MobileNumber" aria-describedby="" placeholder="">
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col col-md-4">
+                                <label for="ContractDate">تاریخ قرارداد</label>
+                                <input type="text" class="form-control" id="ContractDate" name="ContractDate" aria-describedby="" placeholder="">
+                            </div>
+                            <div class="col col-md-4">
+                                <label for="State">استان</label>
+                                <select class="form-control" id="State" name="State" onchange="getStateCities()">
+                                    <option value="0">--انتخاب کنید--</option>
+                                    @{
+                                        for (int i = 0; i < Model.States.Count; i++)
+                                        {
+                                            var item = Model.States[i];
+
+                                            <option value="@item.Id">@item.Title</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col col-md-4">
+                                <input type="hidden" id="CustomerCity" />
+                                <label for="CityId">شهر</label>
+                                <select class="form-control" id="CityId" name="CityId">
+                                    <option value="0">--انتخاب کنید--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col col-md-4">
+                                <label for="Phone">شماره تلفن</label>
+                                <input type="text" class="form-control" id="Phone" name="Phone" aria-describedby="" placeholder="">
+                            </div>
+                            <div class="col col-md-8">
+                                <label for="Address">آدرس</label>
+                                <input type="text" class="form-control" id="Address" name="Address" aria-describedby="" placeholder="">
+                                @*</input>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="invoice" style="min-width:100%;margin-bottom:2%;">
+                <!-- title row -->
+                <div class="col-12" style="margin-bottom:2%">
+                    <h5 style="margin:1%;">
+                        <i class="fa fa-globe"></i> اطلاعات وبسایت
+                    </h5>
+                </div>
+                <hr />
+                <div class="row" style="padding:1%;">
+                    <!-- /.col -->
+                    <div class="col-md-12 invoice-col">
+                        <div class="row">
+                            <div class="col col-md-3">
+                                <label for="DomainId">دامین</label>
+                                <input type="text" class="form-control" id="DomainId" name="DomainId" aria-describedby="" placeholder="">
+                            </div>
+                            <div class="col col-md-3">
+                                <label for="DomainCost">هزینه دامین</label>
+                                <input type="text" class="form-control" id="DomainCost" name="DomainCost" aria-describedby="" placeholder="">
+                            </div>
+                            <div class="col col-md-3">
+                                <label for="HostCost">هزینه میزبانی وب سایت(هاست)</label>
+                                <input type="text" class="form-control" id="HostCost" name="HostCost" aria-describedby="" placeholder="">
+                            </div>
+                            <div class="col col-md-3">
+                                <label for="ExecuteDuration">مدت زمان لازم جهت انجام قرارداد</label>
+                                <input type="text" class="form-control" id="ExecuteDuration" name="ExecuteDuration" aria-describedby="" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="invoice" style="min-width:100%;margin-bottom:2%;">
+                <!-- title row -->
+                <div class="col-12" style="margin-bottom:2%">
+                    <h5 style="margin:1%;">
+                        <i class="fa fa-money"></i> شرایط پرداخت
+                    </h5>
+                </div>
+                <hr />
+                <div class="row" style="padding:1%;">
+                    <!-- /.col -->
+                    <div class="col-md-12 invoice-col">
+                        <div class="row">
+                            <div class="col col-md-6">
+                                <label for="AccountId">اطلاعات حساب</label>
+                                <select class="form-control" id="AccountId" name="AccountId">
+                                    <option value="0">--انتخاب کنید--</option>
+                                    @{
+                                        for (int i = 0; i < Model.Accounts.Count; i++)
+                                        {
+                                            var item = Model.Accounts[i];
+
+                                            <option value="@item.Id">@item.BankName - @item.CardNo - @item.OwnerName</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col col-md-3">
+                                <label for="PaymentTotalPrice">مبلغ قرارداد</label>
+                                <input type="text" class="form-control" id="PaymentTotalPrice" name="PaymentTotalPrice" aria-describedby="" placeholder="">
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row" style="margin:0.5%">
+                                    <div class="btn btn-success" onclick="addRow()"><i class="fa fa-plus"></i></div>
+                                    <div class="btn btn-danger" style="margin-right:2px;" onclick="removeRow()"><i class="fa fa-minus"></i></div>
+                                </div>
+                            </div>
+                            <input type="hidden" id="rowIndex" />
+                        </div>
+                        <div class="row">
+                            <table id="GridData" class="table table-bordered table-striped" style="text-align:center">
+                                <thead>
+                                    <tr class="bg-gray-light" style="padding:20px;">
+                                        <th style="max-width:60px;">ردیف</th>
+                                        <th style="">مبلغ پرداخت</th>
+                                        <th style="">تاریخ پرداخت</th>
+                                        <th style="">پیش پرداخت؟</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <hr />
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="row" style="margin-right:35%;margin-bottom:2%;">
+        <div class="col-md-1">
+            <button type="submit" id="submitBtn" class="btn btn-success" onclick="submit()">ثبت</button>
+        </div>
+        <div class="col-md-2" style="">
+            <button type="button" class="btn btn-danger" id="btnReloadPage" onclick="goToControllerAction('WebsiteContract','Index')">بازگشت</button>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/ViewScript/WebsiteContractScript.js"></script>
+
+<script src="~/Asset/ckeditor/ckeditor.js"></script>
+<script src="~/Asset/ckeditor/adapters/jquery.js"></script>
+<script src="~/Asset/ckeditor/CkEditorConfig.js"></script>
+<script>
+     $('#PlanDescription').ckeditor();
+    kamaDatepicker('ContractDate', { buttonsColor: "red", forceFarsiDigits: true, markHolidays: true, gotoToday: true, placeholder: '' });
+</script>

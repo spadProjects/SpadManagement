@@ -1,0 +1,91 @@
+﻿
+@using SpadManagement.Web.Models
+@using SpadManagement.Service.Services
+@using SpadManagement.Models.Common;
+
+@model ContractViewModel
+
+@{
+    ViewBag.Title = "Context";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section title{
+    <h2>متن قرارداد</h2>
+}
+
+<div class="row" style="margin-right:5%;margin-left:5%">
+    <fieldset id="bodyFields">
+        <div class="invoice" style="min-width:80%;margin-bottom:2%;">
+            <!-- title row -->
+            <div class="col-12" style="margin-bottom:2%">
+                <h5 style="margin:1%;">
+                    <i class="fa fa-file-text"></i> متن قرارداد
+                </h5>
+            </div>
+            <hr />
+            <div class="row" style="padding:1%;">
+                <!-- /.col -->
+                <div class="col-md-12 invoice-col">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row form-group">
+                                <div class="col col-md-12">
+
+                                    @{var context = SystemParameterService.GetInstance().GetEntity(SystemParameterCodes.ContractContext).Value;}
+                                    @*<label for="ContractContext">متن قرارداد</label>*@
+                                    <textarea type="text" class="form-control" id="ContractContext" name="ContractContext"
+                                              aria-describedby="" placeholder="">
+                                    @context
+                                    </textarea>
+                                    @*@Html.EditorFor(x => x.ContractContext)*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </fieldset>
+</div>
+
+<div class="row" style="margin-right:35%;margin-bottom:2%;">
+    <div class="col-md-4">
+        <button type="submit" id="submitBtn" class="btn btn-success" onclick="submit()">ثبت</button>
+    </div>
+    <div class="col-md-2" style="margin-right:20%;">
+        <button type="button" class="btn btn-danger" id="btnReloadPage" onclick="goToControllerAction('Home','Index')">بازگشت</button>
+    </div>
+</div>
+
+
+<script src="~/Asset/ckeditor/ckeditor.js"></script>
+<script src="~/Asset/ckeditor/adapters/jquery.js"></script>
+<script src="~/Asset/ckeditor/CkEditorConfig.js"></script>
+<script>
+    $('#ContractContext').ckeditor();
+    function submit() {
+    debugger;
+    startLoader();
+    hideErrorPopUp();
+    // {TotalPassengers}
+    var ContractContext = CKEDITOR.instances['ContractContext'].getData();
+
+    var Contract = {ContractContext: ContractContext};
+
+    var url = "/InstagramContract/SaveContractContext";
+    $.post(url, Contract, function (data) {
+        endLoader();
+        if (data != '') {
+            showErrorPopUp(data);
+        }
+        else {
+            disablePage();
+            document.getElementById('ContractContext').disabled = true;
+        }
+    });
+}
+    //$('[name="ChangedBody"]').html(data.TrusteeBody);
+    //CKEDITOR.instances['ChangedBody'].setData(data.ChangedBody);
+</script>

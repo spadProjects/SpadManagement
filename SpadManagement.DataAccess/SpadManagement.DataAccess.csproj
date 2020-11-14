@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F072A963-A618-442D-8D25-9FA720291D92}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SpadManagement.DataAccess</RootNamespace>
+    <AssemblyName>SpadManagement.DataAccess</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation">
+      <HintPath>..\Library\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\Navigations.cs" />
+    <Compile Include="Context\DatabaseContext.cs" />
+    <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="Migrations\202010191401472_init324.cs" />
+    <Compile Include="Migrations\202010191401472_init324.designer.cs">
+      <DependentUpon>202010191401472_init324.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010200806241_geodiv.cs" />
+    <Compile Include="Migrations\202010200806241_geodiv.designer.cs">
+      <DependentUpon>202010200806241_geodiv.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010200953555_dbChange1.cs" />
+    <Compile Include="Migrations\202010200953555_dbChange1.designer.cs">
+      <DependentUpon>202010200953555_dbChange1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010201008294_s.cs" />
+    <Compile Include="Migrations\202010201008294_s.designer.cs">
+      <DependentUpon>202010201008294_s.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010201121030_plandsc.cs" />
+    <Compile Include="Migrations\202010201121030_plandsc.designer.cs">
+      <DependentUpon>202010201121030_plandsc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010201320534_plandscs.cs" />
+    <Compile Include="Migrations\202010201320534_plandscs.designer.cs">
+      <DependentUpon>202010201320534_plandscs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010201349512_cityId.cs" />
+    <Compile Include="Migrations\202010201349512_cityId.designer.cs">
+      <DependentUpon>202010201349512_cityId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010210721172_priceField.cs" />
+    <Compile Include="Migrations\202010210721172_priceField.designer.cs">
+      <DependentUpon>202010210721172_priceField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010210813055_prs1.cs" />
+    <Compile Include="Migrations\202010210813055_prs1.designer.cs">
+      <DependentUpon>202010210813055_prs1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010210840439_ctr3.cs" />
+    <Compile Include="Migrations\202010210840439_ctr3.designer.cs">
+      <DependentUpon>202010210840439_ctr3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010210917476_cityctr2.cs" />
+    <Compile Include="Migrations\202010210917476_cityctr2.designer.cs">
+      <DependentUpon>202010210917476_cityctr2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010210942327_sdf344.cs" />
+    <Compile Include="Migrations\202010210942327_sdf344.designer.cs">
+      <DependentUpon>202010210942327_sdf344.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010210948531_erw3434.cs" />
+    <Compile Include="Migrations\202010210948531_erw3434.designer.cs">
+      <DependentUpon>202010210948531_erw3434.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010211013037_plndxc1.cs" />
+    <Compile Include="Migrations\202010211013037_plndxc1.designer.cs">
+      <DependentUpon>202010211013037_plndxc1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010231724532_websiteContract.cs" />
+    <Compile Include="Migrations\202010231724532_websiteContract.designer.cs">
+      <DependentUpon>202010231724532_websiteContract.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010231742323_webctr.cs" />
+    <Compile Include="Migrations\202010231742323_webctr.designer.cs">
+      <DependentUpon>202010231742323_webctr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010231745208_acc.cs" />
+    <Compile Include="Migrations\202010231745208_acc.designer.cs">
+      <DependentUpon>202010231745208_acc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010240717211_accEdit1.cs" />
+    <Compile Include="Migrations\202010240717211_accEdit1.designer.cs">
+      <DependentUpon>202010240717211_accEdit1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010240857095_accEdit2.cs" />
+    <Compile Include="Migrations\202010240857095_accEdit2.designer.cs">
+      <DependentUpon>202010240857095_accEdit2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010240926335_ctrEdit2.cs" />
+    <Compile Include="Migrations\202010240926335_ctrEdit2.designer.cs">
+      <DependentUpon>202010240926335_ctrEdit2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\AccountRepository.cs" />
+    <Compile Include="Repository\WebsiteContractItemRepository.cs" />
+    <Compile Include="Repository\InstagramContractPlanRepository.cs" />
+    <Compile Include="Repository\ContractRepository.cs" />
+    <Compile Include="Repository\WebsiteContractRepository.cs" />
+    <Compile Include="Repository\PlanDurationPriceRepository.cs" />
+    <Compile Include="Repository\InstagramContractRepository.cs" />
+    <Compile Include="Repository\PersonRepository.cs" />
+    <Compile Include="Repository\PlanTypeRepository.cs" />
+    <Compile Include="Repository\CustomerRepository.cs" />
+    <Compile Include="Repository\GeoDivisionRepository.cs" />
+    <Compile Include="Repository\SystemParameterRepository.cs" />
+    <Compile Include="Validation\AccountValidator.cs" />
+    <Compile Include="Validation\WebsiteContractItemValidator.cs" />
+    <Compile Include="Validation\WebsiteContractValidator.cs" />
+    <Compile Include="Validation\InstagramContractValidator.cs" />
+    <Compile Include="Validation\InstagramContractPlanValidator.cs" />
+    <Compile Include="Validation\ContractValidator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Context\Migrations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SpadManagement.Models\SpadManagement.Models.csproj">
+      <Project>{85b27f89-660d-427f-9ff3-b958c44c410f}</Project>
+      <Name>SpadManagement.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202010191401472_init324.resx">
+      <DependentUpon>202010191401472_init324.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010200806241_geodiv.resx">
+      <DependentUpon>202010200806241_geodiv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010200953555_dbChange1.resx">
+      <DependentUpon>202010200953555_dbChange1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010201008294_s.resx">
+      <DependentUpon>202010201008294_s.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010201121030_plandsc.resx">
+      <DependentUpon>202010201121030_plandsc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010201320534_plandscs.resx">
+      <DependentUpon>202010201320534_plandscs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010201349512_cityId.resx">
+      <DependentUpon>202010201349512_cityId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010210721172_priceField.resx">
+      <DependentUpon>202010210721172_priceField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010210813055_prs1.resx">
+      <DependentUpon>202010210813055_prs1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010210840439_ctr3.resx">
+      <DependentUpon>202010210840439_ctr3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010210917476_cityctr2.resx">
+      <DependentUpon>202010210917476_cityctr2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010210942327_sdf344.resx">
+      <DependentUpon>202010210942327_sdf344.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010210948531_erw3434.resx">
+      <DependentUpon>202010210948531_erw3434.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010211013037_plndxc1.resx">
+      <DependentUpon>202010211013037_plndxc1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010231724532_websiteContract.resx">
+      <DependentUpon>202010231724532_websiteContract.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010231742323_webctr.resx">
+      <DependentUpon>202010231742323_webctr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010231745208_acc.resx">
+      <DependentUpon>202010231745208_acc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010240717211_accEdit1.resx">
+      <DependentUpon>202010240717211_accEdit1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010240857095_accEdit2.resx">
+      <DependentUpon>202010240857095_accEdit2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010240926335_ctrEdit2.resx">
+      <DependentUpon>202010240926335_ctrEdit2.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+</Project>

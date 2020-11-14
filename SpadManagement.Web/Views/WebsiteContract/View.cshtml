@@ -1,0 +1,208 @@
+﻿@using SpadManagement.Models.Entities
+@using SpadManagement.Service.Services
+@using SpadManagement.Common;
+@using System.Globalization;
+
+@model WebsiteContract
+
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section title{
+    <h2>مشاهده قرارداد وبسایت</h2>
+}
+
+<div class="col-md-12">
+    <div class="row">
+        <div class="" style="min-width:80%;margin-bottom:2%;">
+            <a type="button" class="btn btn-info" id="btnPrint" href="~/WebsiteContract/Print/@Model.Id" target="_blank">
+                <i class="fa fa-print">
+                    <span style="padding-right:2px; cursor:pointer; font-size:large; font-family: 'Vazir', sans-serif !important;">
+                        چاپ
+                    </span>
+                </i>
+            </a>
+        </div>
+        <fieldset id="bodyFields" style="min-width:100%;" disabled>
+
+            <div class="invoice" style="min-width:100%;margin-bottom:2%;">
+                <!-- title row -->
+                <div class="col-12" style="margin-bottom:2%">
+                    <h5 style="margin:1%;">
+                        <i class="fa fa-info"></i> مشخصات کارفرما
+                    </h5>
+                </div>
+                <hr />
+                <div class="row" style="padding:1%;">
+                    <!-- /.col -->
+                    <div class="col-md-12 invoice-col">
+                        <div class="row">
+                            <div class="col col-md-4">
+                                <label for="CustomerId">نام شخص حقیقی/ حقوقی</label>
+                                <select class="form-control" id="CustomerId" name="CustomerId">
+                                    <option value="@Model.CustomerId">@Model.CustomerName</option>
+                                </select>
+                            </div>
+                            <div class="col col-md-4">
+                                <label for="ManagerName">نام مدیریت</label>
+                                <input type="text" class="form-control" id="ManagerName" name="ManagerName" value="@Model.CustomerManagerName" aria-describedby="" placeholder="">
+                            </div>
+                            <div class="col col-md-4">
+                                <label for="MobileNumber">شماره همراه</label>
+                                <input type="text" class="form-control" id="MobileNumber" name="MobileNumber" value="@Model.CustomerMobile" aria-describedby="" placeholder="">
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col col-md-4">
+                                <label for="ContractDate">تاریخ قرارداد</label>
+                                @{ var persianContractDate = Model.ContractDate.ToPersianString();}
+                                <input type="text" class="form-control" value="@persianContractDate" id="ContractDate" name="ContractDate" aria-describedby="" placeholder="">
+                            </div>
+                            <div class="col col-md-4">
+                                <label for="State">استان</label>
+                                <select class="form-control" id="State" name="State">
+                                    @{
+                                        var city = GeoDivisionService.GetInstance().GetEntity(Model.CustomerCityId);
+                                        var state = GeoDivisionService.GetInstance().GetDefaultQuery()
+                                                                        .Where(w => w.Id == city.ParentId).FirstOrDefault();
+                                        <option value="@state.Id">@state.Title</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col col-md-4">
+                                <input type="hidden" id="CustomerCity" />
+                                <label for="CityId">شهر</label>
+                                <select class="form-control" id="CityId" name="CityId">
+                                    <option value="@city.Id">@city.Title</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col col-md-4">
+                                <label for="Phone">شماره تلفن</label>
+                                <input type="text" class="form-control" value="@Model.CustomerPhone" id="Phone" name="Phone" aria-describedby="" placeholder="">
+                            </div>
+                            <div class="col col-md-8">
+                                <label for="Address">آدرس</label>
+                                <input type="text" class="form-control" value="@Model.CustomerAddress" id="Address" name="Address" aria-describedby="" placeholder="">
+                                @*</input>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="invoice" style="min-width:100%;margin-bottom:2%;">
+                <!-- title row -->
+                <div class="col-12" style="margin-bottom:2%">
+                    <h5 style="margin:1%;">
+                        <i class="fa fa-globe"></i> اطلاعات وبسایت
+                    </h5>
+                </div>
+                <hr />
+                <div class="row" style="padding:1%;">
+                    <!-- /.col -->
+                    <div class="col-md-12 invoice-col">
+                        <div class="row">
+                            <div class="col col-md-3">
+                                <label for="DomainId">دامین</label>
+                                <input type="text" class="form-control" value="@Model.DomainId" id="DomainId" name="DomainId" aria-describedby="" placeholder="">
+                            </div>
+                            <div class="col col-md-3">
+                                <label for="DomainCost">هزینه دامین</label>
+                                <input type="text" class="form-control" value="@Model.DomainRegistrationCost" id="DomainCost" name="DomainCost" aria-describedby="" placeholder="">
+                            </div>
+                            <div class="col col-md-3">
+                                <label for="HostCost">هزینه میزبانی وب سایت(هاست)</label>
+                                <input type="text" class="form-control" value="@Model.HostRegistrationCost" id="HostCost" name="HostCost" aria-describedby="" placeholder="">
+                            </div>
+                            <div class="col col-md-3">
+                                <label for="ExecuteDuration">مدت زمان لازم جهت انجام قرارداد</label>
+                                <input type="text" class="form-control" value="@Model.ExecuteDuration" id="ExecuteDuration" name="ExecuteDuration" aria-describedby="" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="invoice" style="min-width:100%;margin-bottom:2%;">
+                <!-- title row -->
+                <div class="col-12" style="margin-bottom:2%">
+                    <h5 style="margin:1%;">
+                        <i class="fa fa-money"></i> شرایط پرداخت
+                    </h5>
+                </div>
+                <hr />
+                <div class="row" style="padding:1%;">
+                    <!-- /.col -->
+                    <div class="col-md-12 invoice-col">
+                        <div class="row">
+                            <div class="col col-md-6">
+                                <label for="AccountId">اطلاعات حساب</label>
+                                @{var account = AccountService.GetInstance().GetEntity(Model.AccountId); }
+                                <select class="form-control" id="AccountId" name="AccountId">
+                                    <option value="@account.Id">@account.BankName - @account.CardNo  - @account.OwnerName</option>
+                                </select>
+                            </div>
+                            <div class="col col-md-3">
+                                <label for="PaymentTotalPrice">مبلغ قرارداد</label>
+                                <input type="text" class="form-control" value="@Model.PaymentTotalPrice.SplitDigit()" id="PaymentTotalPrice" name="PaymentTotalPrice" aria-describedby="" placeholder="">
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <input type="hidden" id="rowIndex" />
+                            <table id="GridData" class="table table-bordered table-striped" style="text-align:center">
+                                <thead>
+                                    <tr class="bg-gray-light" style="padding:20px;">
+                                        <th style="max-width:60px;">ردیف</th>
+                                        <th style="">مبلغ پرداخت</th>
+                                        <th style="">تاریخ پرداخت</th>
+                                        <th style="">پیش پرداخت؟</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int rowIndex = 0; }
+                                    @foreach (var item in Model.WebsiteContractItems)
+                                    {
+                                        rowIndex++;
+                                        <tr class="bg-gray-light">
+                                            <th>@rowIndex</th>
+                                            <th>@item.Amount.SplitDigit()</th>
+                                            <th>@item.Date.ToPersianString()</th>
+                                            @if (item.IsPrePayment)
+                                            {
+                                                <th><input type="checkbox" checked /> </th>
+
+                                            }
+                                            else
+                                            {
+                                                <th><input type="checkbox" /> </th>
+                                            }
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr />
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="row" style="margin-right:35%;margin-bottom:2%;">
+        <div class="col-md-2" style="">
+            <button type="button" class="btn btn-danger" id="btnReloadPage" onclick="goToControllerAction('WebsiteContract','Index')">بازگشت</button>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/ViewScript/WebsiteContractScript.js"></script>
+
+<script>
+    kamaDatepicker('ContractDate', { buttonsColor: "red", forceFarsiDigits: true, markHolidays: true, gotoToday: true, placeholder: '' });
+</script>
+

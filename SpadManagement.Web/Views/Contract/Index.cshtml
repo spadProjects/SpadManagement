@@ -1,0 +1,187 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Title
+{
+    <h2>قراردادها</h2>
+}
+
+<section class="content" style="min-width:100%">
+    <input type="hidden" id="gridIds" />
+    <input type="hidden" id="pageCount" />
+    <div class="card-body">
+        <div class="row">
+            <div class="bg-primary-gradient" style="min-width:100%;padding:1%" type="button" data-toggle="collapse" data-target="#searchDiv"
+                 aria-expanded="false" aria-controls="collapseExample">
+                <i class="fa fa-search" style="margin:5px;"></i><span>جستجو</span>
+            </div>
+            @*<div class="collapse" id="searchDiv" style="min-width:100%">
+                    <div class="card card-body">
+                        <div class="row">
+                            <div class="col col-md-6">
+                                <label for="srchRegionId">URL</label><br />
+                                <input type="text" id="srchUrl" name="srchUrl" style="width:100%" />
+                            </div>
+                            <div class="col col-md-6">
+                                <label for="srchPartOfTitle">قسمتی از عنوان، تلفن، نام مدیریت</label><br />
+                                <input type="text" id="srchPartOfTitle" name="srchPartOfTitle" style="width:100%" />
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-3">
+                                <label for="srchJobId">گروه مشتری</label>
+                                <div class="form-group">
+                                    <select class="form-control" id="srchJobId" name="srchJobId">
+                                        <option value="0">--انتخاب کنید--</option>
+                                        @{
+                                            for (int i = 0; i < Model.Jobs.Count; i++)
+                                            {
+                                                var item = Model.Jobs[i];
+
+                                                <option value="@item.Id">@item.FaName</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="srchTypeId">نوع مشتری</label>
+                                <select class="form-control" id="srchTypeId" name="srchTypeId">
+                                    <option value="0">--انتخاب کنید--</option>
+                                    @{
+                                        for (int i = 0; i < Model.AdTypes.Count; i++)
+                                        {
+                                            var item = Model.AdTypes[i];
+
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="srchCityId">شهر</label>
+                                <div class="form-group">
+                                    <select class="form-control select2" id="srchCityId" name="srchCityId"
+                                            onchange="getCityRegions()">
+                                        <option value="0">--انتخاب کنید--</option>
+                                        @{
+                                            for (int i = 0; i < Model.Cities.Count; i++)
+                                            {
+                                                var item = Model.Cities[i];
+
+                                                <option value="@item.Id">@item.FaName</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="srchRegionId">منطقه</label>
+                                <div class="form-group">
+                                    <select class="form-control" id="srchRegionId" name="srchRegionId">
+                                        <option value="0">--انتخاب کنید--</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-3">
+                                <label for="srchMap">نقشه</label><br />
+                                <select class="form-control" id="srchMap" name="srchMap">
+                                    <option value="0">--انتخاب کنید--</option>
+                                    <option value="1">دارد</option>
+                                    <option value="2">ندارد</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="srchFAQ">سوالات متداول</label>
+                                <select class="form-control" id="srchFAQ" name="srchFAQ">
+                                    <option value="0">--انتخاب کنید--</option>
+                                    <option value="1">دارد</option>
+                                    <option value="2">ندارد</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="srchContractEndDate">زمان اتمام قرارداد</label>
+                                <select class="form-control" id="srchContractEndDate" name="srchContractEndDate">
+                                    <option value="0">--انتخاب کنید--</option>
+                                    <option Value="today">امروز</option>
+                                    <option Value="tomorrow">تا فردا</option>
+                                    <option Value="Nextweek">تاهفته آینده</option>
+                                    <option Value="Nextmonth">تا ماه آینده</option>
+                                    <option Value="Next3month">تا سه ماه آینده</option>
+                                    <option Value="yesterday">از دیروز</option>
+                                    <option Value="Lastweek">از هفته گذشته</option>
+                                    <option Value="Lastmonth">از ماه گذشته</option>
+                                    <option Value="Last3month">از سه ماه گذشته</option>
+                                    <option Value="Last6month">از شش ماه گذشته</option>
+                                    <option Value="Lastyear">از سال گذشته</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="srchPageSize">تعداد نمایش</label>
+                                <select class="form-control" id="srchPageSize" name="srchPageSize">
+                                    <option value="10">10</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                    <option value="500">500</option>
+                                    <option value="1000">1000</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:15px;">
+                            <div class="col-md-5">
+                            </div>
+                            <div class="col-md-5">
+                                <button class="btn btn-warning" type="submit" onclick="onSearch()"><i class="fa fa-search"></i><span>جستجو مشتری</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+        </div>
+        <div class="fc-toolbar" id="gridToolbar">
+            <div class="btn btn-success" onclick="goToControllerAction('Contract','Create')">
+                <i class="fa fa-plus">
+                    <span style="padding-right:2px; font-size:large; font-family: 'Vazir', sans-serif !important;">جدید</span>
+                </i>
+            </div>
+            <div class="btn btn-info" onclick="ExportToExcel('Contract')">
+                <i class="fa fa-file-excel-o">
+                    <span style="padding-right:2px; font-size:large; font-family: 'Vazir', sans-serif !important;">فایل اکسل</span>
+                </i>
+            </div>
+        </div>
+        <table id="dataGrid" class="table table-bordered table-striped">
+            <thead>
+                <tr class="bg-gray-light">
+                    <th>#</th>
+                    <th>شماره قرارداد</th>
+                    <th>تاریخ قرارداد</th>
+                    <th>مشتری</th>
+                    <th>نام مدیریت</th>
+                    <th>تلفن همراه</th>
+                    <th>آی دی اینستاگرام</th>
+                    <th>مبلغ کل</th>
+                    <th style="min-width:200px;">عملیات</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer">
+        <div class="row">
+            <div class="col-md-12" style="text-align:center;margin-bottom:2%;">
+                <div class="gridPageBtn" id="gridPageBtn"></div>
+            </div>
+        </div>
+    </div>
+    <!-- /.card -->
+</section>
+
+<script src="~/Scripts/ViewScript/ContractScript.js"></script>
+<script>
+    kamaDatepicker('srchDate', { buttonsColor: "red", forceFarsiDigits: true, markHolidays: true, gotoToday: true, placeholder: 'تاریخ' });
+</script>

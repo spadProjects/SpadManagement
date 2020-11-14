@@ -1,0 +1,242 @@
+﻿@using SpadManagement.Models.Entities
+@using SpadManagement.Service.Services
+@using SpadManagement.Common;
+@using System.Globalization;
+
+@model InstagramContract
+
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section title{
+    <h2>مشاهده قرارداد</h2>
+}
+
+<div class="col-md-12">
+    <div class="row">
+        <div class="" style="min-width:80%;margin-bottom:2%;">
+            <a type="button" class="btn btn-info" id="btnPrint" href="~/Contract/Print/@Model.Id" target="_blank">
+                <i class="fa fa-print">
+                    <span style="padding-right:2px; cursor:pointer; font-size:large; font-family: 'Vazir', sans-serif !important;">
+                        چاپ
+                    </span>
+                </i>
+            </a>
+        </div>
+        <fieldset id="bodyFields" style="min-width:100%;" disabled>
+
+            <div class="invoice" style="min-width:100%;margin-bottom:2%;">
+                <!-- title row -->
+                <div class="col-12" style="margin-bottom:2%">
+                    <h5 style="margin:1%;">
+                        <i class="fa fa-info"></i> مشخصات کارفرما
+                    </h5>
+                </div>
+                <hr />
+                <div class="row" style="padding:1%;">
+                    <!-- /.col -->
+                    <div class="col-md-12 invoice-col">
+                        <div class="row">
+                            <div class="col col-md-4">
+                                <label for="CustomerId">نام شخص حقیقی/ حقوقی</label>
+                                <select class="form-control" id="CustomerId" name="CustomerId" disabled>
+                                    @{
+                                        <option value="@Model.CustomerId">@Model.CustomerName</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col col-md-4">
+                                <label for="ManagerName">نام مدیریت</label>
+                                <input type="text" class="form-control" value="@Model.CustomerManagerName" id="ManagerName" name="ManagerName" aria-describedby="" placeholder="">
+                            </div>
+                            <div class="col col-md-4">
+                                <label for="MobileNumber">شماره همراه</label>
+                                <input type="text" class="form-control" value="@Model.CustomerMobile" id="MobileNumber" name="MobileNumber" aria-describedby="" placeholder="">
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col col-md-4">
+                                <label for="PageId">ID پیج</label>
+                                <input type="text" class="form-control" id="PageId" value="@Model.InstagramId" name="PageId" aria-describedby="" placeholder="">
+                            </div>
+                            <div class="col col-md-4">
+                                <label for="State">استان</label>
+                                <select class="form-control" id="State" name="State">
+                                    @{
+                                        var city = GeoDivisionService.GetInstance().GetEntity(Model.CustomerCityId);
+                                        var state = GeoDivisionService.GetInstance().GetDefaultQuery()
+                                                                        .Where(w => w.Id == city.ParentId).FirstOrDefault();
+                                        <option value="@state.Id">@state.Title</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col col-md-4">
+                                <input type="hidden" id="CustomerCity" />
+                                <label for="CityId">شهر</label>
+                                <select class="form-control" id="CityId" name="CityId">
+                                    @{
+                                        <option value="@city.Id">@city.Title</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col col-md-4">
+                                <label for="ContractDate">تاریخ قرارداد</label>
+                                @{ var persianContractDate = Model.ContractDate.ToPersianString();}
+                                <input type="text" class="form-control" value="@persianContractDate" id="ContractDate" name="ContractDate" aria-describedby="" placeholder="">
+                            </div>
+                            <div class="col col-md-4">
+                                <label for="PersonId">کارگزار</label>
+                                <select class="form-control" id="PersonId" name="PersonId">
+                                    @{
+                                        <option value="@Model.Person.Id">@Model.Person.FullName</option>
+
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="invoice" style="min-width:100%;margin-bottom:2%;">
+                <!-- title row -->
+                <div class="col-12" style="margin-bottom:2%">
+                    <h5 style="margin:1%;">
+                        <i class="fa fa-cube"></i> مشخصات پلن
+                    </h5>
+                </div>
+                <hr />
+                <div class="row" style="padding:1%;">
+                    <!-- /.col -->
+                    <div class="col-md-12 invoice-col">
+                        <div class="row">
+                            <input type="hidden" id="rowIndex" />
+                        </div>
+                        <div class="row">
+                            <table id="GridData" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr class="bg-gray-light">
+                                        <th style="max-width:60px;">ردیف</th>
+                                        <th style="min-width:300px;">کد و شرح پلن</th>
+                                        <th style="max-width:100px;">تاریخ شروع</th>
+                                        <th style="min-width:150px;">مدت</th>
+                                        <th>مبلغ</th>
+                                        <th>تخفیف</th>
+                                        <th>مبلغ کل</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int rowIndex = 0; }
+                                    @foreach (var item in Model.InstagramContractPlans)
+                                    {
+                                        rowIndex++;
+                                        <tr class="bg-gray-light">
+                                            <th>@rowIndex</th>
+                                            <th>@item.PlanTitle</th>
+                                            <th>@item.StartDate.ToPersianString()</th>
+                                            <th>@item.DurationTitle</th>
+                                            <th>
+                                                @item.Price.ToString("N0", new NumberFormatInfo()
+                                                {
+                                                    NumberGroupSizes = new[] { 3 },
+                                                    NumberGroupSeparator = ","
+                                                })
+                                            </th>
+                                            <th>
+                                                @item.Discount.ToString("N0", new NumberFormatInfo()
+                                                {
+                                                    NumberGroupSizes = new[] { 3 },
+                                                    NumberGroupSeparator = ","
+                                                })
+                                            </th>
+                                            <th>
+                                                @item.TotalPrice.ToString("N0", new NumberFormatInfo()
+                                                {
+                                                    NumberGroupSizes = new[] { 3 },
+                                                    NumberGroupSeparator = ","
+                                                })
+                                            </th>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row form-group">
+                                    <div class="col col-md-6" style="text-align:left">
+                                        <label for="TotalPrice">جمع کل</label>
+                                    </div>
+                                    <div class="col col-md-2">
+                                        @{ var totalPrice = Model.TotalPrice.ToString("N0", new NumberFormatInfo()
+                                            {
+                                                NumberGroupSizes = new[] { 3 },
+                                                NumberGroupSeparator = ","
+                                            });}
+                                        <input type="text" class="form-control" value="@totalPrice" id="TotalPrice" name="TotalPrice" aria-describedby="" placeholder="" disabled />
+                                    </div>
+                                    <div class="col col-md-2">
+                                        @{ var DiscountTotalPrice = Model.DiscountTotalPrice.ToString("N0", new NumberFormatInfo()
+                                            {
+                                                NumberGroupSizes = new[] { 3 },
+                                                NumberGroupSeparator = ","
+                                            });}
+                                        <input type="text" class="form-control" value="@DiscountTotalPrice" id="DiscountTotalPrice" name="DiscountTotalPrice" aria-describedby="" placeholder="" disabled />
+                                    </div>
+                                    <div class="col col-md-2">
+                                        @{ var PaymentTotalPrice = Model.PaymentTotalPrice.ToString("N0", new NumberFormatInfo()
+                                            {
+                                                NumberGroupSizes = new[] { 3 },
+                                                NumberGroupSeparator = ","
+                                            });}
+                                        <input type="text" class="form-control" value="@PaymentTotalPrice" id="PaymentTotalPrice" name="PaymentTotalPrice" aria-describedby="" placeholder="" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row form-group">
+                                    <div class="col col-md-12">
+                                        <label for="PlanDescription">توضیحات پلن و خدمات</label>
+                                        <textarea type="text" class="form-control" id="PlanDescription" name="PlanDescription" disabled
+                                                  aria-describedby="" placeholder="">
+                                                @Model.ContractPlanDescriptions
+                                    </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </fieldset>
+    </div>
+
+    <div class="row" style="margin-right:35%;margin-bottom:2%;">
+        <div class="col-md-1">
+            @*<button type="submit" id="submitBtn" class="btn btn-success" onclick="submit()">ثبت</button>*@
+        </div>
+        <div class="col-md-2" style="">
+            <button type="button" class="btn btn-danger" id="btnReloadPage" onclick="goToControllerAction('Contract','Index')">بازگشت</button>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/ViewScript/ContractScript.js"></script>
+
+<script src="~/Asset/ckeditor/ckeditor.js"></script>
+<script src="~/Asset/ckeditor/adapters/jquery.js"></script>
+<script src="~/Asset/ckeditor/CkEditorConfig.js"></script>
+<script>
+     $('#PlanDescription').ckeditor();
+    kamaDatepicker('ContractDate', { buttonsColor: "red", forceFarsiDigits: true, markHolidays: true, gotoToday: true, placeholder: '' });
+</script>
+

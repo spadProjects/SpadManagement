@@ -1,0 +1,61 @@
+﻿@using SpadManagement.Infrastructure.Authorization;
+
+@{var hasAccess = AuthorizationManager.HasAccess("Contract.Menu");}
+<li class="nav-item has-treeview">
+    <a href="#" class="nav-link">
+        <i class="nav-icon fa fa-file"></i>
+        <p>
+            قراردادها
+            <i class="fa fa-angle-left right"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        @{
+            hasAccess = AuthorizationManager.HasAccess("InstagramContract.Menu");
+
+            if (hasAccess)
+            {
+                <li class="nav-item" style="color:white">
+                    <a href="~/InstagramContract/Index" class="nav-link">
+                        <i class="fa fa-circle-o nav-icon"></i>
+                        <p>قرارداد اینستاگرام</p>
+                    </a>
+                </li>
+            }
+        }
+        @{
+            hasAccess = AuthorizationManager.HasAccess("WebsiteContract.Menu");
+
+            if (hasAccess)
+            {
+                <li class="nav-item" style="color:white">
+                    <a href="~/WebsiteContract/Index" class="nav-link">
+                        <i class="fa fa-circle-o nav-icon"></i>
+                        <p>قرارداد وب سایت</p>
+                    </a>
+                </li>
+            }
+        }
+        @{
+            @*hasAccess = AuthorizationManager.HasAccess("Contract.Contractcontext.Menu");
+
+            if (hasAccess)
+            {
+                <li class="nav-item" style="color:white">
+                    <a href="~/Contract/ContractContext" class="nav-link">
+                        <i class="fa fa-circle-o nav-icon"></i>
+                        <p>متن قرارداد</p>
+                    </a>
+                </li>
+            }*@
+        }
+    </ul>
+</li>
+<li class="nav-item has-treeview">
+    <a href="/Customers/Index" class="nav-link">
+        <i class="nav-icon fa fa-user"></i>
+        <p>
+           مشتریان
+        </p>
+    </a>
+</li>

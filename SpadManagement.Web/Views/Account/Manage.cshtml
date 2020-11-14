@@ -1,0 +1,58 @@
+﻿@model SpadTransportation.Web.Models.ManageUserViewModel
+
+@{
+    ViewBag.Title = "تغییر رمز عبور";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Manage</h2>*@
+@section title{
+    تغییر رمز عبور
+}
+
+
+<!-- /.register-box -->
+
+<div class="register-box" style="min-width:50%;">
+    @using (Html.BeginForm("Manage", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="card">
+            <div class="card-body register-card-body">
+                <form action="../../index.html" method="post">
+                    <div class="input-group mb-3">
+                        <label class="col-md-4 control-label" for="OldPassword">کلمه عبور جاری</label>
+                        @Html.PasswordFor(m => m.OldPassword, new { @class = "form-control" })
+                        <div class="input-group-append">
+                            <span class="fa fa-lock input-group-text"></span>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="col-md-4 control-label" for="OldPassword">کلمه عبور جدید</label>
+                        @Html.PasswordFor(m => m.NewPassword, new { @class = "form-control" })
+                        <div class="input-group-append">
+                            <span class="fa fa-lock input-group-text"></span>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="col-md-4 control-label" for="OldPassword">تکرار کلمه عبور جدید</label>
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                        <div class="input-group-append">
+                            <span class="fa fa-lock input-group-text"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- /.col -->
+                        <div class="col-4">
+                        </div>
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block btn-flat">تغییر رمز عبور</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+            </div>
+            <!-- /.form-box -->
+        </div><!-- /.card -->
+    }
+</div>
